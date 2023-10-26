@@ -71,3 +71,11 @@ authentication.authenticateUser = async function (req, res, next) {
 
     next();
 }
+
+authentication.requireLogin = async function (req, res, next) {
+    if (!req.isAuthenticated() || !req.user) {
+        return res.redirect('/login');
+    }
+
+    next();
+}
