@@ -22,6 +22,13 @@ authentication.registerUser = async (req) => {
         throw new Error('Invalid email id was supplied.');
     }
 
+    if (email) {
+        const userWithEmailExists = await database.client.collection(collections.USERS).findOne({email: email.trim()});
+        if (userWithEmailExists && userWithEmailExists.hasOwnProperty('email') && userWithEmailExists.email == email.trim()) {
+            throw new Error('This email id is already taken. Please use a different email id');
+        }
+    }
+
     const userData = {username};
 
     // Hash the password using bcrypt

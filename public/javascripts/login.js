@@ -43,10 +43,17 @@ function initialize() {
                     location.pathname = '/'
                 });
             },
-            error: function () {
+            error: function ({responseJSON, statusText}) {
+                let errorMessage = '';
+                if (responseJSON && Object.keys(responseJSON).length) {
+                    errorMessage = responseJSON.status.message;
+                } else {
+                    errorMessage = statusText;
+                }
+
                 Swal.fire(
                     'Error!',
-                    'Username already exist, change your username.',
+                    errorMessage,
                     'error'
                 );
             }
